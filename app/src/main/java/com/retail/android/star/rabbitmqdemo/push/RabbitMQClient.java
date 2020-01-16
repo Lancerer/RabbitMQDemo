@@ -27,23 +27,29 @@ import java.util.concurrent.TimeoutException;
  */
 public class RabbitMQClient {
     private final String TAG = "RabbitMQ";
-    /**
-     * 需要自己设置，这里给出的只是样本
-     */
+
+    //ip
     public static String SERVICE_HOST_IP;
+    //端口
     public static int SERVICE_PORT;
+    //用户名
     public static String SERVICE_USERNAME;
+    //密码
     public static String SERVICE_PASSWORD;
+    //交换机名称
     public static String EXCHANGE_NAME;
+    //交换机类型
     public static String EXCHANGE_TYPE;
 
     private final String FLAG_SEND = "send";
     private final String FLAG_RECEIVE = "receive";
+    //交换机类型集合
     private List<String> exchangeTypeList = new ArrayList<>(4);
 
     private static RabbitMQClient singleton;
     private final ConnectionFactory factory;
     private Connection connection;
+    //通道map
     private Map<String, Channel> channelMap = new HashMap<>();
 
     private RabbitMQClient() {
@@ -209,7 +215,7 @@ public class RabbitMQClient {
                 public void handleDelivery(String consumerTag, Envelope envelope,
                                            AMQP.BasicProperties properties, byte[] body)
                         throws IOException {
-                    String message = new String(body, "UTF-8");
+                    String message = new String(body, "gbk");
                     if (listener != null) {
                         listener.receive(message);
                     }
